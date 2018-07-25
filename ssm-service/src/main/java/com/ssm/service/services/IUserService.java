@@ -1,5 +1,7 @@
 package com.ssm.service.services;
 
+import com.ssm.service.entry.User;
+
 import java.util.Map;
 
 /**
@@ -14,4 +16,12 @@ public interface IUserService {
      * @return
      */
     Map<String, Object> findById(Integer userId);
+
+    /**
+     * 根据 id 查询用户
+     *
+     * @param id 用户id
+     * @return
+     */
+    User queryById(Integer id);
 }
