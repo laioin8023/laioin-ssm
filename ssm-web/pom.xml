@@ -22,6 +22,11 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.laioin</groupId>
             <artifactId>ssm-service</artifactId>
             <version>1.0-SNAPSHOT</version>

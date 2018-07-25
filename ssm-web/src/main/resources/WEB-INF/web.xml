@@ -17,7 +17,8 @@
 
     <servlet>
         <servlet-name>springMvc</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <!-- <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+        <servlet-class>com.ssm.web.base.SsmDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:config/spring-mvc.xml;classpath:mybatis-spring.xml</param-value>

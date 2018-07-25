@@ -19,16 +19,25 @@
     <!-- 静态资源处理  css js imgs -->
     <mvc:resources location="/resources/**" mapping="/resources"/>
 
-    <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+    <!-- 使用  gson 替换 jackson 序列化 -->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
+                        <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
                         <value>text/html;charset=UTF-8</value>
                     </list>
                 </property>
                 <property name="defaultCharset" value="UTF-8"></property>
+                <!-- 日期格式化 -->
+                <property name="gson">
+                    <bean class="org.springframework.http.converter.json.GsonFactoryBean">
+                        <property name="serializeNulls" value="true"/>
+                        <property name="disableHtmlEscaping" value="true"/>
+                        <property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss"/>
+                    </bean>
+                </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>

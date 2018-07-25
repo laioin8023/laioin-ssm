@@ -1,6 +1,7 @@
 package com.ssm.web.controller;
 
 import com.ssm.common.modle.ResultMsg;
+import com.ssm.service.entry.User;
 import com.ssm.service.services.IUserService;
 import com.ssm.web.base.BaseController;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/findById")
     public ResultMsg findById(Integer userId) {
-        Map<String, Object> data = userService.findById(userId);
+        User data = userService.queryById(userId);
         LGR.info("11111");
         LGR.debug("debug");
         LGR.error("ERROR");
