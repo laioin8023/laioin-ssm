@@ -24,7 +24,7 @@ public class SsmDispatcherServlet extends DispatcherServlet {
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String url = request.getRequestURI();
         String ip = Tools.getIp(request);
-        LGR.info("==================================================== {} start =====================================================================",url);
+        LGR.info("==================================================== {} start =====================================================================", url);
        /*
         处理，授权，什么接口，必须授权
         HandlerExecutionChain mappedHandler = getHandler(request);
@@ -38,7 +38,7 @@ public class SsmDispatcherServlet extends DispatcherServlet {
         }*/
         Map<String, String[]> paramMap = request.getParameterMap();
         if (null != paramMap && paramMap.size() > 0) {
-            LGR.info("request params: [{}].", ip, url, JsonUtil.gsonString(paramMap));
+            LGR.info("IP = [{}{}] request params: [{}].", ip, url, JsonUtil.gsonString(paramMap));
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ServletInputStream is = null;
@@ -59,6 +59,6 @@ public class SsmDispatcherServlet extends DispatcherServlet {
         }
         SsmRequestWrapper meRequest = new SsmRequestWrapper(request, out);
         doDispatch(meRequest, response);
-        LGR.info("==================================================== {} end =====================================================================",url);
+        LGR.info("==================================================== {} end =====================================================================", url);
     }
 }
