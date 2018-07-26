@@ -1,7 +1,9 @@
 package com.ssm.service.services;
 
+import com.ssm.common.pagination.Pagination;
 import com.ssm.service.entry.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,4 +26,23 @@ public interface IUserService {
      * @return
      */
     User queryById(Integer id);
+
+    /**
+     * 分页查询用户
+     *
+     * @param pageIndex 开始页码
+     * @param pageSize  每页多大
+     * @return
+     */
+    Pagination<List<User>> findPage(Integer pageIndex, Integer pageSize);
+
+    /**
+     * 根据性别查询用户
+     *
+     * @param sex       性别
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    Pagination<List<User>> findPageBySex(Integer sex, Integer pageIndex, Integer pageSize);
 }

@@ -15,6 +15,10 @@
     </modules>
 
     <properties>
+        <!-- 解决多个模块jdk 版本不一致的问题 -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <spring.version>4.3.9.RELEASE</spring.version>
     </properties>
 

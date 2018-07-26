@@ -41,7 +41,12 @@
         <property name="mapperLocations" value="classpath:mappers/UserMapper.xml"/>
         <!-- 模型类型路径 -->
         <property name="typeAliasesPackage" value="com.ssm.service.entry"/>
-
+        <!-- 注入，分页拦截器 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.ssm.common.pagination.PaginationInterceptor"/>
+            </array>
+        </property>
     </bean>
 
 
