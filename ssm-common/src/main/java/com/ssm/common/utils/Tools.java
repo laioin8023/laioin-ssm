@@ -1,7 +1,15 @@
 package com.ssm.common.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +18,8 @@ import java.util.regex.Pattern;
  * 工具类
  */
 public class Tools {
+
+    private static Logger LGR = LoggerFactory.getLogger(Tools.class);
 
     private static final Random RANDOM_STR_LEM = new Random();
 
@@ -102,7 +112,8 @@ public class Tools {
     public static boolean checkPhone(String mobileNumber) {
         boolean flag = false;
         try {//19942364101
-            Pattern regex = Pattern.compile("^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(19[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$");
+            String check = "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(19[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$";
+            Pattern regex = Pattern.compile(check);
             Matcher matcher = regex.matcher(mobileNumber);
             flag = matcher.matches();
         } catch (Exception e) {
@@ -110,4 +121,97 @@ public class Tools {
         }
         return flag;
     }
+
+    /**
+     * 检查密码
+     *
+     * @param pwd
+     * @return
+     */
+    public static boolean checkPassword(String pwd) {
+        boolean flag = false;
+        try {
+            // 密码.任意字符，6 -12 位
+            String check = "^.{6,12}$";
+            Pattern regex = Pattern.compile(check);
+            Matcher matcher = regex.matcher(pwd);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+        return flag;
+    }
+
+    /**
+     * 获取订单号
+     *
+     * @param key
+     * @return
+     */
+    public static String getOrderNo(String key) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddmmssSSS");
+        StringBuilder sb = new StringBuilder();
+        sb.append(key);
+        sb.append(sdf.format(new Date()));
+        sb.append(Tools.getRandomNumberByLength(6));
+        return sb.toString();
+    }
+
+    /**
+     * 获取一定长度的随机数字
+     *
+     * @param length 指定数字长度
+     * @return 一定长度的数字
+     */
+    public static String getRandomNumberByLength(int length) {
+        String base = "0123456789";
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = RANDOM_STR_LEM.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 利用java原生的摘要实现SHA256加密
+     *
+     * @param str 加密后的报文
+     * @return
+     */
+    public static String getSHA256StrJava(String str) {
+        MessageDigest messageDigest;
+        String encodeStr = "";
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(str.getBytes("UTF-8"));
+            encodeStr = byte2Hex(messageDigest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            LGR.error("", e);
+        }
+        return encodeStr;
+    }
+
+    /**
+     * 将byte转为16进制
+     *
+     * @param bytes
+     * @return
+     */
+    private static String byte2Hex(byte[] bytes) {
+        StringBuffer stringBuffer = new StringBuffer();
+        String temp = null;
+        for (int i = 0; i < bytes.length; i++) {
+            temp = Integer.toHexString(bytes[i] & 0xFF);
+            if (temp.length() == 1) {
+                //1得到一位的进行补0操作
+                stringBuffer.append("0");
+            }
+            stringBuffer.append(temp);
+        }
+        return stringBuffer.toString();
+    }
+
 }

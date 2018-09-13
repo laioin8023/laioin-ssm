@@ -1,5 +1,7 @@
 package com.ssm.common.utils;
 
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -14,11 +16,11 @@ public class DESUtil {
 	/**
 	 * DES算法密钥
 	 */
-	private static final byte[] DES_KEY = { 21, 1, -110, 82, -32, -85, -128, -65 };
+	private static final byte[] DES_KEY = "bixin.12138.123".getBytes();
 
 	/**
 	 * 数据加密，算法（DES）
-	 * 
+	 *
 	 * @param data
 	 *            要进行加密的数据
 	 * @return 加密后的数据
@@ -37,7 +39,7 @@ public class DESUtil {
 			Cipher cipher = Cipher.getInstance("DES");
 			cipher.init(Cipher.ENCRYPT_MODE, key, sr);
 			// 加密，并把字节数组编码成字符串
-			encryptedData = new sun.misc.BASE64Encoder().encode(cipher.doFinal(data.getBytes()));
+			encryptedData = Base64.encodeBase64String(cipher.doFinal(data.getBytes()));
 		} catch (Exception e) {
 			// log.error("加密错误，错误信息：", e);
 			throw new RuntimeException("加密错误，错误信息：", e);
@@ -47,7 +49,7 @@ public class DESUtil {
 
 	/**
 	 * 数据解密，算法（DES）
-	 * 
+	 *
 	 * @param cryptData
 	 *            加密数据
 	 * @return 解密后的数据
@@ -66,7 +68,7 @@ public class DESUtil {
 			Cipher cipher = Cipher.getInstance("DES");
 			cipher.init(Cipher.DECRYPT_MODE, key, sr);
 			// 把字符串解码为字节数组，并解密
-			decryptedData = new String(cipher.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(cryptData)));
+			decryptedData = new String(cipher.doFinal(Base64.decodeBase64(cryptData)));
 		} catch (Exception e) {
 			// log.error("解密错误，错误信息：", e);
 			throw new RuntimeException("解密错误，错误信息：", e);
