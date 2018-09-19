@@ -154,32 +154,8 @@ public class PaginationInterceptor implements Interceptor {
      * @return CountOptimize
      */
     private String getCountOptimize(String originalSql) {
-        // 调整SQL便于解析
-        String tempSql = originalSql.replaceAll("(?i)ORDER[\\s]+BY", "ORDER BY").replaceAll("(?i)GROUP[\\s]+BY", "GROUP BY");
-        String indexOfSql = tempSql.toUpperCase();
-        // 有排序情况
-        int orderByIndex = indexOfSql.lastIndexOf("ORDER BY");
-
         StringBuilder countSql = new StringBuilder("SELECT COUNT(1) ");
-        boolean optimize = false;
-        if (!indexOfSql.contains("DISTINCT") && !indexOfSql.contains("GROUP BY")) {
-            int formIndex = indexOfSql.indexOf("FROM");
-            if (formIndex > -1) {
-                if (orderByIndex > -1) {
-                    tempSql = tempSql.substring(0, orderByIndex);
-                    countSql.append(tempSql.substring(formIndex));
-                    // 无排序情况
-                } else {
-                    countSql.append(tempSql.substring(formIndex));
-                }
-                // 执行优化
-                optimize = true;
-            }
-        }
-        if (!optimize) {
-            // 无优化SQL
-            countSql.append("FROM ( ").append(originalSql).append(" ) TOTAL");
-        }
+        countSql.append("FROM ( ").append(originalSql).append(" ) TOTAL");
         return countSql.toString();
     }
 
